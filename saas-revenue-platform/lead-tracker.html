@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RevenueLock - Lead Tracker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0066cc;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: #0066cc;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0052a3;
+        }
+
+        .btn-secondary {
+            background: white;
+            border: 1px solid #ddd;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #f0f0f0;
+        }
+
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #0066cc;
+        }
+
+        .stat-change {
+            font-size: 12px;
+            color: #666;
+            margin-top: 8px;
+        }
+
+        /* Filters */
+        .filters {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filters input,
+        .filters select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .filters input:focus,
+        .filters select:focus {
+            outline: none;
+            border-color: #0066cc;
+        }
+
+        /* Table */
+        .table-container {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #f8f9fa;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #666;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .name {
+            font-weight: 600;
+            color: #0066cc;
+        }
+
+        .phone {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-hot {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .badge-warm {
+            background: #cfe2ff;
+            color: #084298;
+        }
+
+        .badge-cold {
+            background: #f8f9fa;
+            color: #666;
+        }
+
+        .badge-contacted {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .badge-demo {
+            background: #cff4fc;
+            color: #055160;
+        }
+
+        .badge-trial {
+            background: #e2e3e5;
+            color: #383d41;
+        }
+
+        .badge-paid {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            padding: 6px 10px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            color: #0066cc;
+        }
+
+        .action-btn:hover {
+            background: #f0f6ff;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+        }
+
+        .modal-close {
+            font-size: 28px;
+            cursor: pointer;
+            color: #999;
+            background: none;
+            border: none;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #0066cc;
+            box-shadow: 0 0 0 3px rgba(0,102,204,0.1);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .form-actions .btn {
+            flex: 1;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        .empty-state p {
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .filters {
+                flex-direction: column;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            th, td {
+                padding: 10px;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="container">
+        <div class="logo">RevenueLock Lead Tracker</div>
+        <div class="header-actions">
+            <button class="btn btn-primary" onclick="openModal('add')">+ Add Lead</button>
+            <button class="btn btn-secondary" onclick="exportCSV()">Export CSV</button>
+        </div>
+    </header>
+
+    <!-- Container -->
+    <div class="container">
+        <!-- Stats -->
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-label">Total Leads</div>
+                <div class="stat-value" id="statTotal">0</div>
+                <div class="stat-change">This month</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Hot Leads</div>
+                <div class="stat-value" id="statHot">0</div>
+                <div class="stat-change">Ready to convert</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Demos This Week</div>
+                <div class="stat-value" id="statDemos">0</div>
+                <div class="stat-change">Scheduled</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Conversion Rate</div>
+                <div class="stat-value" id="statConversion">0%</div>
+                <div class="stat-change">Leads → Paid</div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters">
+            <input type="text" id="searchInput" placeholder="Search by name or email..." onkeyup="filterTable()">
+            <select id="statusFilter" onchange="filterTable()">
+                <option value="">All Statuses</option>
+                <option value="contacted">Contacted</option>
+                <option value="demo-scheduled">Demo Scheduled</option>
+                <option value="trial">Free Trial</option>
+                <option value="proposal">Proposal Sent</option>
+                <option value="paid">Paid Customer</option>
+                <option value="lost">Lost Deal</option>
+            </select>
+            <select id="temperatureFilter" onchange="filterTable()">
+                <option value="">All Temperatures</option>
+                <option value="hot">Hot</option>
+                <option value="warm">Warm</option>
+                <option value="cold">Cold</option>
+            </select>
+        </div>
+
+        <!-- Table -->
+        <div class="table-container">
+            <table id="leadsTable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Company</th>
+                        <th>Phone</th>
+                        <th>Temperature</th>
+                        <th>Status</th>
+                        <th>Last Contact</th>
+                        <th>Next Action</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="leadsBody">
+                    <tr colspan="8" style="text-align: center; color: #999;">
+                        <td colspan="8" style="padding: 40px;">No leads yet. <a href="#" onclick="openModal('add'); return false;" style="color: #0066cc;">Add your first lead</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Add Lead Modal -->
+    <div id="addModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Lead</h2>
+                <button class="modal-close" onclick="closeModal('add')">&times;</button>
+            </div>
+            <form onsubmit="addLead(event)">
+                <div class="form-group">
+                    <label>Name *</label>
+                    <input type="text" id="leadName" required>
+                </div>
+                <div class="form-group">
+                    <label>Company</label>
+                    <input type="text" id="leadCompany">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="leadEmail">
+                </div>
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="tel" id="leadPhone">
+                </div>
+                <div class="form-group">
+                    <label>Industry</label>
+                    <select id="leadIndustry">
+                        <option value="">Select...</option>
+                        <option value="hvac">HVAC</option>
+                        <option value="plumbing">Plumbing</option>
+                        <option value="realestate">Real Estate</option>
+                        <option value="medical">Medical/Clinic</option>
+                        <option value="legal">Legal</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Temperature</label>
+                    <select id="leadTemperature" required>
+                        <option value="">Select...</option>
+                        <option value="hot">Hot (High intent)</option>
+                        <option value="warm">Warm (Interested)</option>
+                        <option value="cold">Cold (Early stage)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <select id="leadStatus" required>
+                        <option value="contacted">Contacted</option>
+                        <option value="demo-scheduled">Demo Scheduled</option>
+                        <option value="trial">Free Trial</option>
+                        <option value="proposal">Proposal Sent</option>
+                        <option value="paid">Paid Customer</option>
+                        <option value="lost">Lost Deal</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Next Action</label>
+                    <textarea id="leadNextAction" placeholder="e.g., Send demo link, Schedule call..."></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('add')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Lead</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Data storage (in-memory, use backend database in production)
+        let leads = JSON.parse(localStorage.getItem('revenuelockLeads')) || [];
+
+        // Add lead
+        function addLead(event) {
+            event.preventDefault();
+            const lead = {
+                id: Date.now(),
+                name: document.getElementById('leadName').value,
+                company: document.getElementById('leadCompany').value,
+                email: document.getElementById('leadEmail').value,
+                phone: document.getElementById('leadPhone').value,
+                industry: document.getElementById('leadIndustry').value,
+                temperature: document.getElementById('leadTemperature').value,
+                status: document.getElementById('leadStatus').value,
+                nextAction: document.getElementById('leadNextAction').value,
+                createdAt: new Date().toLocaleDateString(),
+                lastContact: 'Today'
+            };
+
+            leads.push(lead);
+            saveLead();
+            renderTable();
+            closeModal('add');
+            event.target.reset();
+            updateStats();
+        }
+
+        // Render table
+        function renderTable() {
+            const tbody = document.getElementById('leadsBody');
+            if (leads.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" style="padding: 40px; text-align: center; color: #999;">No leads yet. <a href="#" onclick="openModal(\'add\'); return false;" style="color: #0066cc;">Add your first lead</a></td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = leads.map(lead => `
+                <tr>
+                    <td class="name">${lead.name}</td>
+                    <td>${lead.company || '—'}</td>
+                    <td class="phone">${lead.phone || '—'}</td>
+                    <td>
+                        <span class="badge badge-${lead.temperature}">${lead.temperature || '—'}</span>
+                    </td>
+                    <td>
+                        <span class="badge badge-${lead.status.replace(' ', '-').toLowerCase()}">${lead.status}</span>
+                    </td>
+                    <td>${lead.lastContact || '—'}</td>
+                    <td style="font-size: 13px; color: #666;">${lead.nextAction || '—'}</td>
+                    <td>
+                        <div class="actions">
+                            <button class="action-btn" onclick="editLead(${lead.id})">Edit</button>
+                            <button class="action-btn" onclick="deleteLead(${lead.id})">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Filter table
+        function filterTable() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const statusFilter = document.getElementById('statusFilter').value;
+            const tempFilter = document.getElementById('temperatureFilter').value;
+
+            const filtered = leads.filter(lead => {
+                const matchesSearch = lead.name.toLowerCase().includes(searchTerm) || 
+                                     (lead.email && lead.email.toLowerCase().includes(searchTerm));
+                const matchesStatus = !statusFilter || lead.status === statusFilter;
+                const matchesTemp = !tempFilter || lead.temperature === tempFilter;
+                return matchesSearch && matchesStatus && matchesTemp;
+            });
+
+            const tbody = document.getElementById('leadsBody');
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" style="padding: 40px; text-align: center; color: #999;">No leads match your filters.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(lead => `
+                <tr>
+                    <td class="name">${lead.name}</td>
+                    <td>${lead.company || '—'}</td>
+                    <td class="phone">${lead.phone || '—'}</td>
+                    <td>
+                        <span class="badge badge-${lead.temperature}">${lead.temperature || '—'}</span>
+                    </td>
+                    <td>
+                        <span class="badge badge-${lead.status.replace(' ', '-').toLowerCase()}">${lead.status}</span>
+                    </td>
+                    <td>${lead.lastContact || '—'}</td>
+                    <td style="font-size: 13px; color: #666;">${lead.nextAction || '—'}</td>
+                    <td>
+                        <div class="actions">
+                            <button class="action-btn" onclick="editLead(${lead.id})">Edit</button>
+                            <button class="action-btn" onclick="deleteLead(${lead.id})">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Delete lead
+        function deleteLead(id) {
+            if (confirm('Are you sure? This cannot be undone.')) {
+                leads = leads.filter(l => l.id !== id);
+                saveLead();
+                renderTable();
+                updateStats();
+            }
+        }
+
+        // Edit lead (placeholder)
+        function editLead(id) {
+            alert('Edit feature coming soon. For now, delete and re-add.');
+        }
+
+        // Export CSV
+        function exportCSV() {
+            const headers = ['Name', 'Company', 'Email', 'Phone', 'Industry', 'Temperature', 'Status', 'Next Action', 'Created'];
+            const rows = leads.map(l => [
+                l.name,
+                l.company,
+                l.email,
+                l.phone,
+                l.industry,
+                l.temperature,
+                l.status,
+                l.nextAction,
+                l.createdAt
+            ]);
+
+            let csv = [headers, ...rows].map(row => 
+                row.map(cell => `"${cell || ''}"`).join(',')
+            ).join('\n');
+
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `leads-${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+        }
+
+        // Update stats
+        function updateStats() {
+            const hot = leads.filter(l => l.temperature === 'hot').length;
+            const demos = leads.filter(l => l.status === 'demo-scheduled').length;
+            const paid = leads.filter(l => l.status === 'paid').length;
+            const conversion = leads.length > 0 ? Math.round((paid / leads.length) * 100) : 0;
+
+            document.getElementById('statTotal').textContent = leads.length;
+            document.getElementById('statHot').textContent = hot;
+            document.getElementById('statDemos').textContent = demos;
+            document.getElementById('statConversion').textContent = conversion + '%';
+        }
+
+        // Save to localStorage
+        function saveLead() {
+            localStorage.setItem('revenuelockLeads', JSON.stringify(leads));
+        }
+
+        // Modal
+        function openModal(type) {
+            document.getElementById(type + 'Modal').classList.add('active');
+        }
+
+        function closeModal(type) {
+            document.getElementById(type + 'Modal').classList.remove('active');
+        }
+
+        // Init
+        renderTable();
+        updateStats();
+    </script>
+</body>
+</html>
