@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Government Deals Arbitrage Tracker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f0f2f5;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1a73e8;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: #1a73e8;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1557b0;
+        }
+
+        .btn-success {
+            background: #34a853;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #2d8e47;
+        }
+
+        /* Stats Grid */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #1a73e8;
+        }
+
+        .stat-change {
+            font-size: 12px;
+            color: #666;
+            margin-top: 8px;
+        }
+
+        /* Filters */
+        .filters {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filters input,
+        .filters select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .filters input:focus,
+        .filters select:focus {
+            outline: none;
+            border-color: #1a73e8;
+        }
+
+        /* Table */
+        .table-container {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #f8f9fa;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #666;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .item-name {
+            font-weight: 600;
+            color: #1a73e8;
+        }
+
+        .category {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .cat-sanitizer {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .cat-tech {
+            background: #cfe2ff;
+            color: #084298;
+        }
+
+        .cat-office {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .cat-other {
+            background: #f8f9fa;
+            color: #666;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-watching {
+            background: #cfe2ff;
+            color: #084298;
+        }
+
+        .status-bid {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-won {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .status-sold {
+            background: #f8f9fa;
+            color: #666;
+        }
+
+        .margin {
+            font-weight: bold;
+        }
+
+        .margin-good {
+            color: #34a853;
+        }
+
+        .margin-bad {
+            color: #ea4335;
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            padding: 6px 10px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            color: #1a73e8;
+        }
+
+        .action-btn:hover {
+            background: #f0f6ff;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+        }
+
+        .modal-close {
+            font-size: 28px;
+            cursor: pointer;
+            color: #999;
+            background: none;
+            border: none;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #1a73e8;
+            box-shadow: 0 0 0 3px rgba(26,115,232,0.1);
+        }
+
+        .form-group .note {
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .form-actions .btn {
+            flex: 1;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        @media (max-width: 768px) {
+            .filters {
+                flex-direction: column;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            th, td {
+                padding: 10px;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="container">
+        <div class="logo">💰 Gov Deals Tracker</div>
+        <div class="header-actions">
+            <button class="btn btn-primary" onclick="openModal('add')">+ Add Deal</button>
+            <button class="btn btn-success" onclick="exportCSV()">Export CSV</button>
+        </div>
+    </header>
+
+    <!-- Container -->
+    <div class="container">
+        <!-- Stats -->
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-label">Total Deals Tracked</div>
+                <div class="stat-value" id="statTotal">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Hot Deals (>40% margin)</div>
+                <div class="stat-value" id="statHot">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Total Invested</div>
+                <div class="stat-value" id="statInvested">$0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Potential Revenue</div>
+                <div class="stat-value" id="statRevenue">$0</div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters">
+            <input type="text" id="searchInput" placeholder="Search item name..." onkeyup="filterTable()">
+            <select id="categoryFilter" onchange="filterTable()">
+                <option value="">All Categories</option>
+                <option value="sanitizer">Sanitizers</option>
+                <option value="tech">Technology</option>
+                <option value="office">Office</option>
+                <option value="other">Other</option>
+            </select>
+            <select id="statusFilter" onchange="filterTable()">
+                <option value="">All Status</option>
+                <option value="watching">Watching</option>
+                <option value="bid">Bid Placed</option>
+                <option value="won">Won</option>
+                <option value="sold">Sold</option>
+            </select>
+            <select id="marginFilter" onchange="filterTable()">
+                <option value="">All Margins</option>
+                <option value="good">Good (>40%)</option>
+                <option value="okay">Okay (20-40%)</option>
+                <option value="poor">Poor (<20%)</option>
+            </select>
+        </div>
+
+        <!-- Table -->
+        <div class="table-container">
+            <table id="dealsTable">
+                <thead>
+                    <tr>
+                        <th>Item Name</th>
+                        <th>Category</th>
+                        <th>Auction Price</th>
+                        <th>Amazon Price</th>
+                        <th>Margin</th>
+                        <th>Status</th>
+                        <th>Platform</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="dealsBody">
+                    <tr colspan="8">
+                        <td colspan="8" style="text-align: center; color: #999; padding: 40px;">
+                            No deals tracked yet. <a href="#" onclick="openModal('add'); return false;" style="color: #1a73e8;">Add your first deal</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Add Deal Modal -->
+    <div id="addModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Track a New Deal</h2>
+                <button class="modal-close" onclick="closeModal('add')">&times;</button>
+            </div>
+            <form onsubmit="addDeal(event)">
+                <div class="form-group">
+                    <label>Item Name *</label>
+                    <input type="text" id="itemName" placeholder="e.g., Purell Hand Sanitizer (case of 12)" required>
+                </div>
+                <div class="form-group">
+                    <label>Category *</label>
+                    <select id="itemCategory" required>
+                        <option value="">Select...</option>
+                        <option value="sanitizer">Sanitizers & Cleaning</option>
+                        <option value="tech">Technology</option>
+                        <option value="office">Office Equipment</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Platform *</label>
+                    <select id="itemPlatform" required>
+                        <option value="">Select...</option>
+                        <option value="gsa">GSA Auctions</option>
+                        <option value="govdeals">GovDeals</option>
+                        <option value="iqbid">IQBid</option>
+                        <option value="liquidity">Liquidity Services</option>
+                        <option value="fema">FEMA</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Auction Price ($) *</label>
+                    <input type="number" id="auctionPrice" placeholder="500" step="0.01" required>
+                    <div class="note">What you'll bid/pay</div>
+                </div>
+                <div class="form-group">
+                    <label>Current Amazon Price ($) *</label>
+                    <input type="number" id="amazonPrice" placeholder="1200" step="0.01" required>
+                    <div class="note">Current selling price on Amazon</div>
+                </div>
+                <div class="form-group">
+                    <label>Shipping Cost ($)</label>
+                    <input type="number" id="shippingCost" placeholder="50" step="0.01" value="0">
+                    <div class="note">Cost to ship to Amazon/warehouse</div>
+                </div>
+                <div class="form-group">
+                    <label>Amazon Fees (%)</label>
+                    <input type="number" id="amazonFees" placeholder="30" step="0.1" value="30">
+                    <div class="note">FBA fees (usually 15-40%)</div>
+                </div>
+                <div class="form-group">
+                    <label>Status *</label>
+                    <select id="itemStatus" required>
+                        <option value="watching">Watching</option>
+                        <option value="bid">Bid Placed</option>
+                        <option value="won">Won</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Notes</label>
+                    <textarea id="itemNotes" placeholder="Condition, quantity, any other details..." rows="3"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn" style="background: #f0f2f5;" onclick="closeModal('add')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Deal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Data storage
+        let deals = JSON.parse(localStorage.getItem('govDealsTracks')) || [];
+
+        // Add deal
+        function addDeal(event) {
+            event.preventDefault();
+            
+            const auctionPrice = parseFloat(document.getElementById('auctionPrice').value);
+            const amazonPrice = parseFloat(document.getElementById('amazonPrice').value);
+            const shippingCost = parseFloat(document.getElementById('shippingCost').value) || 0;
+            const amazonFees = parseFloat(document.getElementById('amazonFees').value) || 30;
+
+            // Calculate profit
+            const feesAmount = (amazonPrice * amazonFees) / 100;
+            const profit = amazonPrice - auctionPrice - shippingCost - feesAmount;
+            const margin = ((profit / amazonPrice) * 100).toFixed(1);
+
+            const deal = {
+                id: Date.now(),
+                name: document.getElementById('itemName').value,
+                category: document.getElementById('itemCategory').value,
+                platform: document.getElementById('itemPlatform').value,
+                auctionPrice: auctionPrice.toFixed(2),
+                amazonPrice: amazonPrice.toFixed(2),
+                shippingCost: shippingCost.toFixed(2),
+                amazonFees: amazonFees.toFixed(1),
+                profit: profit.toFixed(2),
+                margin: margin,
+                status: document.getElementById('itemStatus').value,
+                notes: document.getElementById('itemNotes').value,
+                createdAt: new Date().toLocaleDateString()
+            };
+
+            deals.push(deal);
+            saveDeal();
+            renderTable();
+            closeModal('add');
+            event.target.reset();
+            updateStats();
+        }
+
+        // Render table
+        function renderTable() {
+            const tbody = document.getElementById('dealsBody');
+            if (deals.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; color: #999; padding: 40px;">No deals tracked yet. <a href="#" onclick="openModal(\'add\'); return false;" style="color: #1a73e8;">Add your first deal</a></td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = deals.map(deal => `
+                <tr>
+                    <td class="item-name">${deal.name}</td>
+                    <td>
+                        <span class="category cat-${deal.category}">${deal.category}</span>
+                    </td>
+                    <td>$${parseFloat(deal.auctionPrice).toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+                    <td>$${parseFloat(deal.amazonPrice).toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+                    <td>
+                        <span class="margin ${parseFloat(deal.margin) > 40 ? 'margin-good' : 'margin-bad'}">${deal.margin}%</span>
+                    </td>
+                    <td>
+                        <span class="status status-${deal.status}">${deal.status}</span>
+                    </td>
+                    <td>${deal.platform}</td>
+                    <td>
+                        <div class="actions">
+                            <button class="action-btn" onclick="viewDeal(${deal.id})">View</button>
+                            <button class="action-btn" onclick="deleteDeal(${deal.id})">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Filter table
+        function filterTable() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const categoryFilter = document.getElementById('categoryFilter').value;
+            const statusFilter = document.getElementById('statusFilter').value;
+            const marginFilter = document.getElementById('marginFilter').value;
+
+            const filtered = deals.filter(deal => {
+                const matchesSearch = deal.name.toLowerCase().includes(searchTerm);
+                const matchesCategory = !categoryFilter || deal.category === categoryFilter;
+                const matchesStatus = !statusFilter || deal.status === statusFilter;
+                
+                let matchesMargin = true;
+                if (marginFilter === 'good') matchesMargin = parseFloat(deal.margin) > 40;
+                if (marginFilter === 'okay') matchesMargin = parseFloat(deal.margin) >= 20 && parseFloat(deal.margin) <= 40;
+                if (marginFilter === 'poor') matchesMargin = parseFloat(deal.margin) < 20;
+
+                return matchesSearch && matchesCategory && matchesStatus && matchesMargin;
+            });
+
+            const tbody = document.getElementById('dealsBody');
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; color: #999; padding: 40px;">No deals match your filters.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(deal => `
+                <tr>
+                    <td class="item-name">${deal.name}</td>
+                    <td>
+                        <span class="category cat-${deal.category}">${deal.category}</span>
+                    </td>
+                    <td>$${parseFloat(deal.auctionPrice).toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+                    <td>$${parseFloat(deal.amazonPrice).toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+                    <td>
+                        <span class="margin ${parseFloat(deal.margin) > 40 ? 'margin-good' : 'margin-bad'}">${deal.margin}%</span>
+                    </td>
+                    <td>
+                        <span class="status status-${deal.status}">${deal.status}</span>
+                    </td>
+                    <td>${deal.platform}</td>
+                    <td>
+                        <div class="actions">
+                            <button class="action-btn" onclick="viewDeal(${deal.id})">View</button>
+                            <button class="action-btn" onclick="deleteDeal(${deal.id})">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // View deal
+        function viewDeal(id) {
+            const deal = deals.find(d => d.id === id);
+            alert(`
+Item: ${deal.name}
+Category: ${deal.category}
+Platform: ${deal.platform}
+
+Auction Price: $${parseFloat(deal.auctionPrice).toFixed(2)}
+Amazon Price: $${parseFloat(deal.amazonPrice).toFixed(2)}
+Shipping: $${parseFloat(deal.shippingCost).toFixed(2)}
+Amazon Fees: ${deal.amazonFees}%
+
+Profit: $${parseFloat(deal.profit).toFixed(2)}
+Margin: ${deal.margin}%
+Status: ${deal.status}
+
+Notes: ${deal.notes || 'None'}
+            `);
+        }
+
+        // Delete deal
+        function deleteDeal(id) {
+            if (confirm('Delete this deal?')) {
+                deals = deals.filter(d => d.id !== id);
+                saveDeal();
+                renderTable();
+                updateStats();
+            }
+        }
+
+        // Export CSV
+        function exportCSV() {
+            const headers = ['Item', 'Category', 'Platform', 'Auction Price', 'Amazon Price', 'Shipping', 'Fees %', 'Profit', 'Margin %', 'Status'];
+            const rows = deals.map(d => [
+                d.name,
+                d.category,
+                d.platform,
+                d.auctionPrice,
+                d.amazonPrice,
+                d.shippingCost,
+                d.amazonFees,
+                d.profit,
+                d.margin,
+                d.status
+            ]);
+
+            let csv = [headers, ...rows].map(row => 
+                row.map(cell => `"${cell}"`).join(',')
+            ).join('\n');
+
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `gov-deals-${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+        }
+
+        // Update stats
+        function updateStats() {
+            const hotDeals = deals.filter(d => parseFloat(d.margin) > 40).length;
+            const totalInvested = deals.reduce((sum, d) => sum + parseFloat(d.auctionPrice), 0);
+            const totalRevenue = deals.reduce((sum, d) => sum + parseFloat(d.amazonPrice), 0);
+
+            document.getElementById('statTotal').textContent = deals.length;
+            document.getElementById('statHot').textContent = hotDeals;
+            document.getElementById('statInvested').textContent = '$' + totalInvested.toLocaleString('en-US', {maximumFractionDigits: 0});
+            document.getElementById('statRevenue').textContent = '$' + totalRevenue.toLocaleString('en-US', {maximumFractionDigits: 0});
+        }
+
+        // Save
+        function saveDeal() {
+            localStorage.setItem('govDealsTracks', JSON.stringify(deals));
+        }
+
+        // Modal
+        function openModal(type) {
+            document.getElementById(type + 'Modal').classList.add('active');
+        }
+
+        function closeModal(type) {
+            document.getElementById(type + 'Modal').classList.remove('active');
+        }
+
+        // Init
+        renderTable();
+        updateStats();
+    </script>
+</body>
+</html>
