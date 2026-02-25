@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spring Cleaning Services - Professional House Cleaning in Spring, TX</title>
+    <meta name="description" content="Professional house cleaning services in Spring, TX. Affordable, reliable cleaning for your home. Book your free consultation today.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Navigation */
+        nav {
+            background: #fff;
+            padding: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c5f2d;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #2c5f2d;
+        }
+
+        .call-btn-nav {
+            background: #2c5f2d;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .call-btn-nav:hover {
+            background: #1e4620;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #2c5f2d 0%, #1e4620 100%);
+            color: white;
+            padding: 100px 20px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #fff;
+            color: #2c5f2d;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #2c5f2d;
+        }
+
+        .phone-display {
+            font-size: 32px;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 80px 20px;
+            background: #f9f9f9;
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 50px;
+            color: #2c5f2d;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .feature-card h3 {
+            color: #2c5f2d;
+            margin-bottom: 10px;
+        }
+
+        /* Services Section */
+        .services {
+            padding: 80px 20px;
+        }
+
+        .services h2 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 50px;
+            color: #2c5f2d;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background: #f9f9f9;
+            padding: 40px;
+            border-radius: 8px;
+            border-left: 5px solid #2c5f2d;
+            transition: all 0.3s;
+        }
+
+        .service-card:hover {
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transform: translateY(-3px);
+        }
+
+        .service-card h3 {
+            color: #2c5f2d;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .service-card p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .service-card ul {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .service-card li {
+            padding: 8px 0;
+            color: #666;
+        }
+
+        .service-card li:before {
+            content: "✓ ";
+            color: #2c5f2d;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: #2c5f2d;
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .cta-section p {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        .cta-phone {
+            font-size: 28px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .cta-phone a {
+            color: white;
+            text-decoration: none;
+            border-bottom: 2px solid white;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 80px 20px;
+            background: #f9f9f9;
+        }
+
+        .contact h2 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 50px;
+            color: #2c5f2d;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #2c5f2d;
+            box-shadow: 0 0 0 3px rgba(44,95,45,0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-group button {
+            width: 100%;
+            padding: 15px;
+            background: #2c5f2d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .form-group button:hover {
+            background: #1e4620;
+        }
+
+        /* Footer */
+        footer {
+            background: #1e4620;
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-contact {
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .footer-contact a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer-contact a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .features h2,
+            .services h2,
+            .contact h2,
+            .cta-section h2 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="logo">🧹 Spring Cleaning Services</div>
+            <ul class="nav-links">
+                <li><a href="#services">Services</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="tel:650-844-2179" class="call-btn-nav">Call Now</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Professional House Cleaning in Spring, TX</h1>
+            <p>Reliable, affordable, and thorough cleaning for your home</p>
+            <div class="phone-display">
+                📞 <a href="tel:650-844-2179" style="color: white; text-decoration: none;">650-844-2179</a>
+            </div>
+            <div class="cta-buttons">
+                <a href="tel:650-844-2179" class="btn btn-primary">Call Now</a>
+                <a href="#contact" class="btn btn-secondary">Get Free Quote</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2>Why Choose Us?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">✓</div>
+                    <h3>Reliable Service</h3>
+                    <p>Professional cleaners you can trust. Consistent, high-quality results every time.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3>Affordable Pricing</h3>
+                    <p>Competitive rates tailored to your home size and cleaning needs.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Fast & Efficient</h3>
+                    <p>We work quickly and thoroughly so you can enjoy your clean home sooner.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="container">
+            <h2>Our Services</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3>🏠 House Cleaning</h3>
+                    <p>Complete home cleaning services for 1-bedroom and 2+ bedroom homes.</p>
+                    <ul>
+                        <li>Kitchen cleaning</li>
+                        <li>Bathroom cleaning</li>
+                        <li>Living areas</li>
+                        <li>Bedroom tidying</li>
+                        <li>Dusting & vacuuming</li>
+                    </ul>
+                    <p><strong>Ready to get started?</strong></p>
+                    <a href="tel:650-844-2179" class="btn btn-primary" style="width: 100%; text-align: center;">Call for Pricing</a>
+                </div>
+                <div class="service-card">
+                    <h3>✨ Deep Cleaning</h3>
+                    <p>Thorough, detailed cleaning that gets into every corner of your home.</p>
+                    <ul>
+                        <li>Deep scrubbing</li>
+                        <li>All surfaces</li>
+                        <li>Baseboards & trim</li>
+                        <li>Behind appliances</li>
+                        <li>Complete refresh</li>
+                    </ul>
+                    <p><strong>Interested?</strong></p>
+                    <a href="tel:650-844-2179" class="btn btn-primary" style="width: 100%; text-align: center;">Call for Pricing</a>
+                </div>
+                <div class="service-card">
+                    <h3>🔄 Regular Maintenance</h3>
+                    <p>Weekly or bi-weekly cleaning to keep your home fresh and organized.</p>
+                    <ul>
+                        <li>Recurring schedule</li>
+                        <li>Consistent quality</li>
+                        <li>Flexible timing</li>
+                        <li>Custom frequency</li>
+                        <li>Your preferred day</li>
+                    </ul>
+                    <p><strong>Set up a schedule</strong></p>
+                    <a href="tel:650-844-2179" class="btn btn-primary" style="width: 100%; text-align: center;">Call for Pricing</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready for a Cleaner Home?</h2>
+            <p>Get professional house cleaning in Spring, TX today.</p>
+            <p>Contact us for a free, no-obligation quote.</p>
+            <div class="cta-phone">
+                <a href="tel:650-844-2179">650-844-2179</a>
+            </div>
+            <p style="margin-top: 20px;">Our team is ready to discuss your cleaning needs and provide a custom quote.</p>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2>Get Your Free Quote</h2>
+            <form class="contact-form" onsubmit="handleSubmit(event)">
+                <div class="form-group">
+                    <label for="name">Your Name *</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number *</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email">
+                </div>
+                <div class="form-group">
+                    <label for="bedrooms">Number of Bedrooms *</label>
+                    <select id="bedrooms" name="bedrooms" required>
+                        <option value="">Select...</option>
+                        <option value="1">1 Bedroom</option>
+                        <option value="2">2 Bedrooms</option>
+                        <option value="3">3 Bedrooms</option>
+                        <option value="4">4 Bedrooms</option>
+                        <option value="5">5+ Bedrooms</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="service">Service Type *</label>
+                    <select id="service" name="service" required>
+                        <option value="">Select...</option>
+                        <option value="standard">Standard House Cleaning</option>
+                        <option value="deep">Deep Cleaning</option>
+                        <option value="recurring">Recurring Maintenance</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="message">Additional Details</label>
+                    <textarea id="message" name="message" placeholder="Tell us about your cleaning needs..."></textarea>
+                </div>
+                <div class="form-group">
+                    <button type="submit">Get Your Free Quote</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-contact">
+                <strong>Spring Cleaning Services</strong><br>
+                📞 <a href="tel:650-844-2179">650-844-2179</a><br>
+                Serving Spring, TX
+            </div>
+            <p>&copy; 2026 Spring Cleaning Services. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const email = document.getElementById('email').value;
+            const bedrooms = document.getElementById('bedrooms').value;
+            const service = document.getElementById('service').value;
+            const message = document.getElementById('message').value;
+
+            // Log to console (store in localStorage for later)
+            const quote = {
+                name,
+                phone,
+                email,
+                bedrooms,
+                service,
+                message,
+                timestamp: new Date().toLocaleString()
+            };
+
+            let quotes = JSON.parse(localStorage.getItem('springCleaningQuotes')) || [];
+            quotes.push(quote);
+            localStorage.setItem('springCleaningQuotes', JSON.stringify(quotes));
+
+            // Show confirmation
+            alert(`Thanks ${name}! We'll contact you at ${phone} soon with a quote.`);
+
+            // Reset form
+            event.target.reset();
+        }
+    </script>
+</body>
+</html>
